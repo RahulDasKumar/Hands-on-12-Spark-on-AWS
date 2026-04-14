@@ -51,7 +51,9 @@ Follow these steps to deploy the pipeline in your own AWS account.
 Create two S3 buckets with globally unique names:
 * `handsonfinallanding`: This is where you will upload your raw data.
 * `handsonfinalprocessed`: This is where the processed data and query results will be stored.
-
+![
+    
+](image.png)
 ### 3. Create IAM Role for AWS Glue
 Your Glue job needs permission to read from and write to S3.
 
@@ -62,6 +64,9 @@ Your Glue job needs permission to read from and write to S3.
 5.  Attach the `AmazonS3FullAccess` policy (for this demo) or a more restrictive policy that only grants access to your two buckets.
 6.  Name the role `AWSGlueServiceRole-Reviews` and create it.
 
+## One important part of this role is that seeing from the hand out from last week, they are identical. So I decided not to recreate a new one to save some time. The policies and permissions were exactly the same. 
+
+![alt text](image-1.png)
 ### 4. Create the AWS Glue ETL Job
 1.  Go to the **AWS Glue** service.
 2.  In the navigation pane, click on **ETL jobs**.
@@ -71,6 +76,10 @@ Your Glue job needs permission to read from and write to S3.
 6.  Set the **Name** to `process_reviews_job`.
 7.  Select the `AWSGlueServiceRole-Reviews` **IAM Role** you created in the previous step.
 8.  Save the job.
+## For this role I reused the role in the previous step. 
+### Script for the ETL Job
+![alt text](image-2.png)
+### Permission role
 
 > **Note:** The script is already configured to use the `handsonfinallanding` and `handsonfinalprocessed` buckets.
 
@@ -114,6 +123,12 @@ The new Lambda role needs permission to start a Glue job.
 5.  Set the **Event type** to `s3:ObjectCreated:*` (or "All object create events").
 6.  Acknowledge the recursive invocation warning and click **Add**.
 
+# 5A
+![alt text](image-5.png)
+# 5B
+![alt text](image-4.png)
+# 5C
+![alt text](image-3.png)
 ---
 
 ## 🚀 How to Run the Pipeline
@@ -127,6 +142,8 @@ Your pipeline is now fully deployed and automated!
 
 ---
 
+![alt text](image-6.png)
+![alt text](image-7.png)
 ## 📈 Query Results
 
 After the job (which may take 2-3 minutes to run), navigate to your `handsonfinalprocessed` bucket. You will find the results in the `Athena Results/` folder, organized into sub-folders for each query:
